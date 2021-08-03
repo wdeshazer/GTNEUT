@@ -12,9 +12,20 @@
 # SUN  : SUN SparcStation 2 running SUNOS
 # SOL  : SUN ULTRA 10 running Solaris 7
 # CRAY : NERSC CRAY
+# WSL2 : Windows Subsystem Layer (Linux VM)
 
-#SYS = PC
-SYS  = PORTLAND
+SYS = WSL2
+
+ifeq ($(SYS), WSL2)
+	F = .f
+	O = .o
+	E = 
+	FF = gfortran
+	LD = gfortran
+	FFLAGS = -O -c
+	LDFLAGS = -O 
+	LIBS = -L/usr/local/lib -llapack -lblas
+endif
 ifeq ($(SYS), SOL)
 	F = .f
 	O = .o
