@@ -22,9 +22,9 @@ ifeq ($(SYS), WSL2)
 	E = 
 	FF = gfortran
 	LD = gfortran
-	FFLAGS = -O -c
-	LDFLAGS = -O 
-	LIBS = -L/usr/local/lib -llapack -lblas
+	FFLAGS = -O0 -c -g
+	LDFLAGS = -O0
+	LIBS =  -lumfpack -llapack -lblas
 endif
 ifeq ($(SYS), SOL)
 	F = .f
@@ -79,7 +79,7 @@ ifeq ($(SYS), CRAY)
 endif
 
 SOURCES= main.f		\
-         calctransm.f	\
+     calctransm.f	\
 	 transmcoeff.f	\
 	 rectinp.f      \
 	 checkinp.f 	\
@@ -108,14 +108,17 @@ SOURCES= main.f		\
 
 OBJ = $(SOURCES:$F=$O)
 
-xneut$E : $(OBJ)
-	echo 'Makefile for GTNEUT     20081010 tbt'
-	echo 'SYS = ' $(SYS)
-	echo ' '
+gtneut$E : $(OBJ)
+	echo Makefile for GTNEUT     20081010 tbt
+	echo SYS = $(SYS)
+	echo 
 	$(LD) $(LDFLAGS) -o $@ $(OBJ) $(LIBS)
 
 %$O : %$F
 	$(FF) $(FFLAGS) $<
+
+installumfpack:
+	$(MAKE) -C UMFPACK2 install
 
 # Include file dependencies:
 
@@ -202,5 +205,5 @@ fem.o: \
 	 esc.inc
 
 clean:
-	rm -f xneut$E $(OBJ)
+	rm -f gtneut$E $(OBJ)
 

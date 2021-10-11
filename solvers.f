@@ -73,9 +73,9 @@ c/    routine initializes user-controllable parameters to default values,
 c/    and non-user controllable parameters:
 
 c/    4/20/2017 - Replacing UMS21I with the equivelant MA38I - Maxwell Hill
-
+c/    9/7/2021 - Replacing MA38I with equivalent UMS2IN - Will DeShazer
 c/      call MA38I (keep, cntl, icntl)
-      call UMS21I(keep, cntl, icntl)
+      call UMS2IN(keep, cntl, icntl)
 
 c/    Notice that there are options for long diagnostic output. This is
 c/    controlled by the value of ICNTL(3). The default (accepted here)
@@ -123,6 +123,7 @@ c/    job_fa = 1, and icntl(8) > 0.
 c/    The following 2 flags ensure that we solve A*x = b:
 
 c/    4/20/2017 - Replacing UMS2SO with the equivalent MA38C - Maxwell Hill
+c/    9/7/2021 - Replacing MA38C with equivalent UMS2FA - Will DeShazer
 
       transc = .false.
       job_so = 0
@@ -132,7 +133,7 @@ C       call MA38C (nEqs, job_so, transc, lvalue, lindex, value_umf,
 C      .     index_umf, keep, b, x_vec, w_umf, cntl, icntl, info_umf,
 C      .     rinfo)
 
-      call MA38C (nEqs, job_so, transc, lvalue, lindex, value_umf,
+      call UMS2FA (nEqs, job_so, transc, lvalue, lindex, value_umf,
      .     index_umf, keep, b, x_vec, w_umf, cntl, icntl, info_umf,
      .     rinfo)
 

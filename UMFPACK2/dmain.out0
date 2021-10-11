@@ -1,0 +1,183 @@
+============================================================UMD2FA input:       
+   Scalar arguments:
+      N:        5 : order of matrix A
+      NE:       12 : entries in matrix A
+      JOB:      0 : matrix A not preserved
+      TRANSA:   .false. : factorize A
+      LVALUE:   300 : size of VALUE array
+      LINDEX:   300 : size of INDEX array
+   Control parameters, normally initialized by UMD2IN:
+      ICNTL (1...8): integer control parameters
+      ICNTL (1):   6 : I/O unit for error and warning messages
+      ICNTL (2):   6 : I/O unit for diagnostics
+      ICNTL (3):   4 : printing control
+      ICNTL (4):   1 : use block triangular form (BTF)
+      ICNTL (5):   4 : columns examined during pivot search
+      ICNTL (6):   0 : do not preserve symmetry
+      ICNTL (7):   16 : block size for dense matrix multiply
+      CNTL (1...3): real control parameters
+      CNTL (1):      1.0000000000000D-01 : relative pivot tolerance
+      CNTL (2):      2.0000000000000 : frontal matrix growth factor
+      KEEP (6...8): integer control parameters not normally modified by user
+      KEEP (6):    2147483647 : largest positive integer
+      KEEP (7):    64 : dense row/col control, d1
+      KEEP (8):    1 : dense row/col control, d2
+   The input matrix A:
+      VALUE (1 ...   12 ): numerical values
+      INDEX (1 ...   12 ): row indices
+      INDEX (  13 ...   24 ): column indices
+   Entries in the matrix A (entry number: row, column, value):
+        1:   1   1     2.0000000000000
+        2:   1   2     3.0000000000000
+        3:   2   1     3.0000000000000
+        4:   2   3     4.0000000000000
+        5:   2   5     6.0000000000000
+        6:   3   2    -1.0000000000000
+        7:   3   3    -3.0000000000000
+        8:   3   4     2.0000000000000
+        9:   4   3     1.0000000000000
+        10:   5   2     4.0000000000000
+        11:   5   3     2.0000000000000
+        12:   5   5     1.0000000000000
+============================================================end of UMD2FA input 
+============================================================UMD2FA output:      
+   Output information:
+      INFO (1...24): integer output information
+      INFO (1):    0 : no error or warning occurred
+      INFO (2):    0 : duplicate entries in A
+      INFO (3):    0 : invalid entries in A (indices not in 1..N)
+      INFO (4):    0 : invalid entries in A (not in prior pattern)
+      INFO (5):    12 : entries in A after adding
+                       duplicates and removing invalid entries
+      INFO (6):    8 : entries in diagonal blocks of A
+      INFO (7):    4 : entries in off-diagonal blocks of A
+      INFO (8):    2 : 1-by-1 diagonal blocks in A
+      INFO (9):    3 : diagonal blocks in A (>1 only if BTF used)
+      INFO (10):   3 : entries below diagonal in L
+      INFO (11):   3 : entries above diagonal in U
+      INFO (12):   15 : entries in L + U + offdiagonal blocks of A
+      INFO (13):   1 : frontal matrices
+      INFO (14):   0 : integer garbage collections
+      INFO (15):   0 : real garbage collections
+      INFO (16):   0 : diagonal pivots chosen
+      INFO (17):   5 : numerically valid pivots found in A
+      INFO (18):   123 : memory used in INDEX
+      INFO (19):   128 : minimum memory needed in INDEX
+      INFO (20):   33 : memory used in VALUE
+      INFO (21):   27 : minimum memory needed in VALUE
+      INFO (22):   90 : memory needed in INDEX for next call to UMD2RF
+      INFO (23):   30 : memory needed in VALUE for next call to UMD2RF
+      RINFO (1...8): real output information
+      RINFO (1):     8.0000000000000 : total BLAS flop count
+      RINFO (2):     6.0000000000000 : assembly flop count
+      RINFO (3):     15.000000000000 : pivot search flop count
+      RINFO (4):     2.0000000000000 : Level-1 BLAS flop count
+      RINFO (5):     6.0000000000000 : Level-2 BLAS flop count
+      RINFO (6):   0. : Level-3 BLAS flop count
+   KEEP (1...5) gives the location of LU factors
+      which must be preserved for calls to UMD2SO: 
+         VALUE ( KEEP (1):   286 ... KEEP (2):   300 )
+         INDEX ( KEEP (3):   254 ... KEEP (5):   300 )
+      and for calls to UMD2RF: 
+         INDEX ( KEEP (4):   258 ... KEEP (5):   300 )
+   Layout of LU factors in VALUE and INDEX:
+      original matrix not preserved.
+      matrix permuted to upper block triangular form.
+      entries not in diagonal blocks:
+         INDEX (   254 ...   257 ): row indices
+         VALUE (   286 ...   289 ): numerical values
+      collection of elements in LU factors of diagonal blocks:
+         (an "element" contains one or columns of L and
+         rows of U with similar nonzero pattern)
+         INDEX (   258 ...   270 ): integer data
+         VALUE (   290 ...   300 ): numerical values
+      other block triangular data:
+         INDEX (   271 ...   273 ): pointers to block factors
+         INDEX (   274 ...   277 ): index range of blocks
+         INDEX (   278 ...   293 ): row pointers for off-diagonal part
+      permutation vectors (start at KEEP(4)-2*N-6):
+         INDEX (   284 ...   288 ): column permutations
+         INDEX (   289 ...   293 ): row permutations
+      other data in INDEX: 
+         INDEX (   294 ):   0 : TRANSA UMD2FA/UMD2RF argument
+         INDEX (   295 ):   4 : entries in off-diagonal part
+         INDEX (   296 ):   3 : number of diagonal blocks
+         INDEX (   297 ):   0 : JOB UMD2FA/UMD2RF argument
+         INDEX (   298 ):   12 : entries in original matrix
+         INDEX (   299 ):   5 : N UMD2FA/UMD2RF argument
+         INDEX (   300 ):   12 : NE UMD2FA/UMD2RF argument
+   -----------------------------------------------------------------------------
+   Entries not in diagonal blocks:
+      row:   1 nz:   2
+  2  5
+ -0.10000000E+01 -0.30000000E+01
+      row:   2 nz:   1
+  5
+  0.20000000E+01
+      row:   4 nz:   1
+  5
+  0.40000000E+01
+   -----------------------------------------------------------------------------
+   LU factors of each diagonal block:
+   .............................................................................
+   Singleton block:   1 at index :   1
+   located in VALUE (   290 ):     2.0000000000000
+   .............................................................................
+   Block:   2 first index:   2 last index:   4   order:   3
+   elements:   1   pivots:   3
+   largest contribution block:   1 by   1
+   located in INDEX (   258 ... )
+   and in VALUE (   291 ... )
+      e:   1 pivots:   3 children in dag:   0 frontal matrix:   3 by   3
+         col:   1 nz:   3
+              1  1.0
+              2   0.75000000000000
+              3  0.
+         col:   2 nz:   2
+              2  1.0
+              3   -8.0000000000000
+         col:   3 nz:   1
+              3  1.0
+         row:   1 nz:   3
+              1    4.0000000000000
+              2    1.0000000000000
+              3  0.
+         row:   2 nz:   2
+              2  -0.75000000000000
+              3    2.0000000000000
+         row:   3 nz:   1
+              3    19.000000000000
+   .............................................................................
+   Singleton block:   3 at index :   5
+   located in VALUE (   300 ):     1.0000000000000
+   -----------------------------------------------------------------------------
+      Column permutations
+  4  2  5  1  3
+   -----------------------------------------------------------------------------
+      Row permutations
+  3  5  1  2  4
+============================================================end of UMD2FA output
+Solution: 
+  1.0000000000000000
+  2.0000000000000000
+  3.0000000000000000
+  4.0000000000000000
+  5.0000000000000000
+Solution: 
+  1.8157894736842106
+  1.4561403508771931
+  1.5000000000000000
+-24.8508771929824590
+ 10.2631578947368425
+Solution: 
+-14.9999999999997478
+ 12.6121335597417783
+  3.0000000000000000
+  9.3060667798708891
+ 12.9999999999998739
+Solution: 
+-14.9999999999997424
+ 12.6666666666664955
+  3.0000000000000000
+  9.3333333333332469
+ 12.9999999999998721

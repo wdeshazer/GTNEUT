@@ -235,6 +235,7 @@ c/    0  : Normal exit
 c/    1  : Inconsistent input parameters
 c/    2  : Need to increase dimensions in neutGlob.inc
 
+      program gtneut
       implicit none
       include 'neutGlob.inc'
       include 'comiou.inc'
@@ -300,6 +301,7 @@ c/    ------------------
 c/    Total number of regions:
 
       nTotal = nCells + nWallSegm + nPlasmReg
+      print *, 'Total cells (nTotal) = ', nTotal
 
 c/    Check if input data are consistent:
 
@@ -372,4 +374,5 @@ c/    Write output:
       call zstop (6, nout, 0)
 
 
-      end
+      end program gtneut
+
