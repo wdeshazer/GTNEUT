@@ -5,6 +5,11 @@
             "label": "make",
             "type": "shell",
             "command": "make -j4"
+        },
+        {
+            "label": "build",
+            "type":"shell",
+            "command": "gfortran -g -O0 readfile.f"
         }
     ]
 }
