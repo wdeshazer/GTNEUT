@@ -29,4 +29,8 @@ Lx = 1
 Ly = 1
 NX = 1
 NY = 1
+ne_fixed = 1e20
+ni_fixed = 1e20
+te_fixed = 2
+ti_fixed = 1
 $end

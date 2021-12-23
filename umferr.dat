@@ -1,1 +1,230 @@
+============================================================UMS2FA input:       
+    Scalar arguments:
+       N:                12  : order of matrix A
+       NE:               48  : entries in matrix A
+       JOB:               1  : matrix A preserved
+       TRANSA:   .false. : factorize A
+       LVALUE:      9500000  : size of VALUE array
+       LINDEX:      9500000  : size of INDEX array
+    Control parameters, normally initialized by UMS2IN:
+       ICNTL (1...8): integer control parameters
+       ICNTL (1):            3  : I/O unit for error and warning messages
+       ICNTL (2):           22  : I/O unit for diagnostics
+       ICNTL (3):            4  : printing control
+       ICNTL (4):            0  : do not permute to block triangular form (BTF)
+       ICNTL (5):            2  : columns examined during pivot search
+       ICNTL (6):   2147483647  : preserve symmetry
+       ICNTL (7):           64  : block size for dense matrix multiply
+       CNTL (1...3): real control parameters
+       CNTL (1):    0.100000001      : relative pivot tolerance
+       CNTL (2):     2.00000000      : frontal matrix growth factor
+       KEEP (6...8): integer control parameters not normally modified by user
+       KEEP (6):             0  : largest positive integer
+       KEEP (7):            16  : dense row/col control, d1
+       KEEP (8):             0  : dense row/col control, d2
+    The input matrix A:
+       VALUE (1 ...           48  ): numerical values
+       INDEX (1 ...           48  ): row indices
+       INDEX (          49  ...           96  ): column indices
+    Entries in the matrix A (entry number: row, column, value):
+                  1 :            1             1    0.966820657    
+                  2 :            1             4    -1.53999384E-02
+                  3 :            1             7    -3.31793390E-02
+                  4 :            1            10    -3.38045545E-02
+                  5 :            2             2     1.00000000    
+                  6 :            2             1     7.26909435E-04
+                  7 :            2             4    -4.82765900E-04
+                  8 :            2             7     6.68103969E-30
+                  9 :            2            10     7.26909435E-04
+                 10 :            3             3     1.00000000    
+                 11 :            3             1     1.59584553E-04
+                 12 :            3             4     1.16623225E-04
+                 13 :            3             7    -1.21539976E-22
+                 14 :            3            10     1.59584553E-04
+                 15 :            4             4    0.985013306    
+                 16 :            4             1    -3.31793390E-02
+                 17 :            4             7    -3.38046364E-02
+                 18 :            4            10    -3.31793390E-02
+                 19 :            5             5     1.00000000    
+                 20 :            5             1     6.68103969E-30
+                 21 :            5             7    -7.27015024E-04
+                 22 :            5            10     6.68103969E-30
+                 23 :            6             6     1.00000000    
+                 24 :            6             1    -1.21539976E-22
+                 25 :            6             7     1.59638337E-04
+                 26 :            6            10    -1.21539976E-22
+                 27 :            7             7    0.966820657    
+                 28 :            7             1    -3.38046364E-02
+                 29 :            7             4    -1.53999012E-02
+                 30 :            7            10    -3.38046364E-02
+                 31 :            8             8     1.00000000    
+                 32 :            8             1    -7.27015024E-04
+                 33 :            8             4     4.82717238E-04
+                 34 :            8            10    -7.27015024E-04
+                 35 :            9             9     1.00000000    
+                 36 :            9             1     1.59638337E-04
+                 37 :            9             4     1.16597337E-04
+                 38 :            9            10     1.59638337E-04
+                 39 :           10            10    0.966820657    
+                 40 :           10             1    -3.31793390E-02
+                 41 :           10             4    -1.49867162E-02
+                 42 :           10             7    -3.38045545E-02
+                 43 :           11            11     1.00000000    
+                 44 :           11             4     6.68103969E-30
+                 45 :           11             7     7.26909435E-04
+                 46 :           12            12     1.00000000    
+                 47 :           12             4    -1.21539976E-22
+                 48 :           12             7     1.59584553E-04
+============================================================end of UMS2FA input 
+============================================================UMS2FA output:      
+    Output information:
+       INFO (1...24): integer output information
+       INFO (1):            -1  : error occurred!
+       INFO (2):             0  : duplicate entries in A
+       INFO (3):             0  : invalid entries in A (indices not in 1..N)
+       INFO (4):             0  : invalid entries in A (not in prior pattern)
+       INFO (5):            48  : entries in A after adding
+                        duplicates and removing invalid entries
+       INFO (6):            48  : entries in diagonal blocks of A
+       INFO (7):             0  : entries in off-diagonal blocks of A
+       INFO (8):             0  : 1-by-1 diagonal blocks in A
+       INFO (9):             0  : diagonal blocks in A (>1 only if BTF used)
+       INFO (10):            0  : entries below diagonal in L
+       INFO (11):            0  : entries above diagonal in U
+       INFO (12):            0  : entries in L + U + offdiagonal blocks of A
+       INFO (13):            0  : frontal matrices
+       INFO (14):            0  : integer garbage collections
+       INFO (15):            0  : real garbage collections
+       INFO (16):            0  : diagonal pivots chosen
+       INFO (17):            0  : numerically valid pivots found in A
+       INFO (18):            0  : memory used in INDEX
+       INFO (19):            0  : minimum memory needed in INDEX
+       INFO (20):            0  : memory used in VALUE
+       INFO (21):            0  : minimum memory needed in VALUE
+       INFO (22):            0  : memory needed in INDEX for next call to UMS2RF
+       INFO (23):            0  : memory needed in VALUE for next call to UMS2RF
+       RINFO (1...8): real output information
+       RINFO (1):    0.00000000      : total BLAS flop count
+       RINFO (2):    0.00000000      : assembly flop count
+       RINFO (3):    0.00000000      : pivot search flop count
+       RINFO (4):    0.00000000      : Level-1 BLAS flop count
+       RINFO (5):    0.00000000      : Level-2 BLAS flop count
+       RINFO (6):    0.00000000      : Level-3 BLAS flop count
+    LU factors not printed because of error flag, INFO (1) =           -1
+============================================================end of UMS2FA output
+ Value of info(1) from UMS2FA routine = -1
+============================================================UMS2FA input:       
+    Scalar arguments:
+       N:                12  : order of matrix A
+       NE:               48  : entries in matrix A
+       JOB:               1  : matrix A preserved
+       TRANSA:   .false. : factorize A
+       LVALUE:      9500000  : size of VALUE array
+       LINDEX:      9500000  : size of INDEX array
+    Control parameters, normally initialized by UMS2IN:
+       ICNTL (1...8): integer control parameters
+       ICNTL (1):            3  : I/O unit for error and warning messages
+       ICNTL (2):           22  : I/O unit for diagnostics
+       ICNTL (3):            4  : printing control
+       ICNTL (4):            0  : do not permute to block triangular form (BTF)
+       ICNTL (5):            2  : columns examined during pivot search
+       ICNTL (6):   2147483647  : preserve symmetry
+       ICNTL (7):           64  : block size for dense matrix multiply
+       CNTL (1...3): real control parameters
+       CNTL (1):    0.100000001      : relative pivot tolerance
+       CNTL (2):     2.00000000      : frontal matrix growth factor
+       KEEP (6...8): integer control parameters not normally modified by user
+       KEEP (6):             0  : largest positive integer
+       KEEP (7):            16  : dense row/col control, d1
+       KEEP (8):             0  : dense row/col control, d2
+    The input matrix A:
+       VALUE (1 ...           48  ): numerical values
+       INDEX (1 ...           48  ): row indices
+       INDEX (          49  ...           96  ): column indices
+    Entries in the matrix A (entry number: row, column, value):
+                  1 :            1             1    0.966820657    
+                  2 :            1             4    -1.53999384E-02
+                  3 :            1             7    -3.31793390E-02
+                  4 :            1            10    -3.38045545E-02
+                  5 :            2             2     1.00000000    
+                  6 :            2             1     7.26909435E-04
+                  7 :            2             4    -4.82765900E-04
+                  8 :            2             7     6.68103969E-30
+                  9 :            2            10     7.26909435E-04
+                 10 :            3             3     1.00000000    
+                 11 :            3             1     1.59584553E-04
+                 12 :            3             4     1.16623225E-04
+                 13 :            3             7    -1.21539976E-22
+                 14 :            3            10     1.59584553E-04
+                 15 :            4             4    0.985013306    
+                 16 :            4             1    -3.31793390E-02
+                 17 :            4             7    -3.38046364E-02
+                 18 :            4            10    -3.31793390E-02
+                 19 :            5             5     1.00000000    
+                 20 :            5             1     6.68103969E-30
+                 21 :            5             7    -7.27015024E-04
+                 22 :            5            10     6.68103969E-30
+                 23 :            6             6     1.00000000    
+                 24 :            6             1    -1.21539976E-22
+                 25 :            6             7     1.59638337E-04
+                 26 :            6            10    -1.21539976E-22
+                 27 :            7             7    0.966820657    
+                 28 :            7             1    -3.38046364E-02
+                 29 :            7             4    -1.53999012E-02
+                 30 :            7            10    -3.38046364E-02
+                 31 :            8             8     1.00000000    
+                 32 :            8             1    -7.27015024E-04
+                 33 :            8             4     4.82717238E-04
+                 34 :            8            10    -7.27015024E-04
+                 35 :            9             9     1.00000000    
+                 36 :            9             1     1.59638337E-04
+                 37 :            9             4     1.16597337E-04
+                 38 :            9            10     1.59638337E-04
+                 39 :           10            10    0.966820657    
+                 40 :           10             1    -3.31793390E-02
+                 41 :           10             4    -1.49867162E-02
+                 42 :           10             7    -3.38045545E-02
+                 43 :           11            11     1.00000000    
+                 44 :           11             4     6.68103969E-30
+                 45 :           11             7     7.26909435E-04
+                 46 :           12            12     1.00000000    
+                 47 :           12             4    -1.21539976E-22
+                 48 :           12             7     1.59584553E-04
+============================================================end of UMS2FA input 
+============================================================UMS2FA output:      
+    Output information:
+       INFO (1...24): integer output information
+       INFO (1):            -1  : error occurred!
+       INFO (2):             0  : duplicate entries in A
+       INFO (3):             0  : invalid entries in A (indices not in 1..N)
+       INFO (4):             0  : invalid entries in A (not in prior pattern)
+       INFO (5):            48  : entries in A after adding
+                        duplicates and removing invalid entries
+       INFO (6):            48  : entries in diagonal blocks of A
+       INFO (7):             0  : entries in off-diagonal blocks of A
+       INFO (8):             0  : 1-by-1 diagonal blocks in A
+       INFO (9):             0  : diagonal blocks in A (>1 only if BTF used)
+       INFO (10):            0  : entries below diagonal in L
+       INFO (11):            0  : entries above diagonal in U
+       INFO (12):            0  : entries in L + U + offdiagonal blocks of A
+       INFO (13):            0  : frontal matrices
+       INFO (14):            0  : integer garbage collections
+       INFO (15):            0  : real garbage collections
+       INFO (16):            0  : diagonal pivots chosen
+       INFO (17):            0  : numerically valid pivots found in A
+       INFO (18):            0  : memory used in INDEX
+       INFO (19):            0  : minimum memory needed in INDEX
+       INFO (20):            0  : memory used in VALUE
+       INFO (21):            0  : minimum memory needed in VALUE
+       INFO (22):            0  : memory needed in INDEX for next call to UMS2RF
+       INFO (23):            0  : memory needed in VALUE for next call to UMS2RF
+       RINFO (1...8): real output information
+       RINFO (1):    0.00000000      : total BLAS flop count
+       RINFO (2):    0.00000000      : assembly flop count
+       RINFO (3):    0.00000000      : pivot search flop count
+       RINFO (4):    0.00000000      : Level-1 BLAS flop count
+       RINFO (5):    0.00000000      : Level-2 BLAS flop count
+       RINFO (6):    0.00000000      : Level-3 BLAS flop count
+    LU factors not printed because of error flag, INFO (1) =           -1
+============================================================end of UMS2FA output
  Value of info(1) from UMS2FA routine = -1

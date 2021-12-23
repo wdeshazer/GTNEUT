@@ -20,6 +20,7 @@ c/
 c/    06/10/03, Created by John Mandrekas for GTNEUT
 c/    04/20/17, Modified to use the MA38 libraries due to the unavailability of the necessary version of UMFPACK
 c/              MA38 subroutines are drop in replacements. No other changes to the code were made. - Max Hill
+c/    12/06/21, Adding capibility to write data as a json file - Will DeShazer
 
       implicit none
       include 'neutGlob.inc'
@@ -49,6 +50,10 @@ c/    --------------------------------
       integer job_so
       real x_vec(maxEqs), w_umf(4*maxEqs)
       logical transc
+
+c/    JSON-FORTRAN declarations:
+c/    --------------------
+c/      type(json_core) :: json 
 
 c/    Local variables:
 c/    ---------------
@@ -83,7 +88,7 @@ c/    is icntl(3) = 2, which prints error messages and terse diagnostics
 c/    in the file with unit equal to icntl(2).
 
       icntl(2) = nsdbug
-      icntl(3) = 2
+      icntl(3) = 4
 
 c/    We next have to call the general analysis and factorization
 c/    routine UMS2FA, which finds a sparsity-preserving and numerically
@@ -96,6 +101,8 @@ c/    4/20/2017 - Replacing UMS2FA with the equivelant MA38A - Maxwell Hill
 
 c/      call MA38A (nEqs, nElmnts, job_fa, transa, lvalue, lindex,
 c/     .   value_umf, index_umf, keep, cntl, icntl, info_umf, rinfo)
+
+c/    The following output is useful for diagnostics in
 
       call UMS2FA (nEqs, nElmnts, job_fa, transa, lvalue, lindex,
      .   value_umf, index_umf, keep, cntl, icntl, info_umf, rinfo)
@@ -405,11 +412,6 @@ c/    Must also include contribution to collided fluxes:
           enddo
 
         endif
-
-
-
-
-
 
 c/    Calculate neutral density from ionization rate, assuming that
 c/    svion_tot does not depend strongly on the neutral energy:

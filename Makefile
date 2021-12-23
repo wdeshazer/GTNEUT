@@ -22,9 +22,9 @@ ifeq ($(SYS), WSL2)
 	E = 
 	FF = gfortran
 	LD = gfortran
-	FFLAGS = -O0 -c -g
+	FFLAGS = -O0 -c -g -ggdb
 	LDFLAGS = -O0
-	LIBS =  -lumfpack -llapack -lblas
+	LIBS =  -lumfpack -llapack -lblas -ljsonfortran
 endif
 ifeq ($(SYS), SOL)
 	F = .f
