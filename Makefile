@@ -166,6 +166,6 @@ clean:
 
 realclean: \
 	clean
-	$(MAKE) -C UMFPACK2 clean
+	$(MAKE) -C UMFPACK2 purge
 	cd json-fortran; ./build.sh --clean
 

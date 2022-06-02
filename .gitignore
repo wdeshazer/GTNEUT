@@ -2,4 +2,5 @@
 .idea
 *.o
 *.bu
+.vscode
 gtneut
