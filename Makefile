@@ -23,59 +23,8 @@ ifeq ($(SYS), WSL2)
 	FF = gfortran
 	LD = gfortran
 	FFLAGS = -O0 -c -g -ggdb
-	LDFLAGS = -O0
+	LDFLAGS = -O0 -LUMFPACK2 -Ljson-fortran/lib
 	LIBS =  -lumfpack -llapack -lblas -ljsonfortran
-endif
-ifeq ($(SYS), SOL)
-	F = .f
-	O = .o
-	E = 
-	FF = f95
-	LD = f95
-	FFLAGS = -c -f77 -ftrap=%none -dalign -native -xarch=v8plusa -O4
-	LDFLAGS = -f77 -ftrap=%none -dalign -native -xarch=v8plusa -O4
-	LIBS = -L/usr/local/lib -lumfpack -xlic_lib=sunperf
-endif
-ifeq ($(SYS), PC)
-	F = .f
-	O = .o
-	E = 
-	FF = g77
-	LD = g77
-	FFLAGS = -O -c
-	LDFLAGS = -O 
-	LIBS = -L/usr/local/lib -llapack_sun4 -lblas_sun4
-endif
-ifeq ($(SYS), PORTLAND)
-	F = .f
-	O = .o
-	E = 
-	FF = pgf90
-	LD = pgf90
-	FFLAGS = -O -c 
-	LDFLAGS = -O 
-	LIBS = -L/usr/local/lib -L/c/source/PGI/pgi/linux86/7.2-2/lib /c/source/umfpack-2.2.1/lib/libumfpack.a /usr/lib/gcc/i386-redhat-linux/3.4.3/libg2c.a -llapack -lblas 
-endif
-#/usr/lib/libf2c.a -llapack -lblas 
-ifeq ($(SYS), HP)
-        F = .f
-        O = .o
-        E =
-        FF = fort77
-        LD = fort77
-        FFLAGS = -c +O4 +DA1.1 +DS1.1 -K +U77
-        LDFLAGS = -L/d/hp/lib -L/opt/fortran/lib
-        LIBS = -llapack -lblas
-endif                                                
-ifeq ($(SYS), CRAY)
-	F = .f
-	O = .o
-	E = 
-	FF = f90
-	LD = segldr
-	FFLAGS = -ev -c
-	LDFLAGS = 
-	LIBS =
 endif
 
 SOURCES= main.f		\
@@ -108,7 +57,7 @@ SOURCES= main.f		\
 
 OBJ = $(SOURCES:$F=$O)
 
-gtneut$E : $(OBJ)
+gtneut$E : $(OBJ) UMFPACK2/libumfpack.a json-fortran/lib/libjsonfortran.a
 	echo Makefile for GTNEUT     20081010 tbt
 	echo SYS = $(SYS)
 	echo 
@@ -122,44 +71,52 @@ installumfpack:
 
 # Include file dependencies:
 
+UMFPACK2/libumfpack.a:
+	$(MAKE) -C UMFPACK2
+
+json-fortran/lib/libjsonfortran.a:
+	pip install Fobis.py
+	pip install ford
+	cd json-fortran; ./build.sh
+
 main.o : \
-	 consts.inc \
-	 neutGlob.inc \
-	 comiou.inc 
+	consts.inc \
+	neutGlob.inc \
+	comiou.inc 
 
 rectinp.o :	\
 	neutGlob.inc \
 	comiou.inc
 
 calcRect.o : 	\
-	 locGeom.inc \
-         neutGlob.inc
+	locGeom.inc \
+    neutGlob.inc
 
 calcmfp.o : \
-	 consts.inc	\
-	 locGeom.inc	\
-	 neutGlob.inc
+	consts.inc	\
+	locGeom.inc	\
+	neutGlob.inc
 
 calcrparms.o : \
-	 consts.inc	\
-	 locGeom.inc	\
-	 neutGlob.inc
+	consts.inc	\
+	locGeom.inc	\
+	neutGlob.inc
 
 calctransm.o : \
-	 neutGlob.inc
+	neutGlob.inc
 
 transmcoeff.o : \
-	 consts.inc	\
-	 locGeom.inc	\
-	 neutGlob.inc
+	consts.inc	\
+	locGeom.inc	\
+	neutGlob.inc
 
 calcxswms.o : \
-	 wmsdata.inc
+	wmsdata.inc
 
 checkinp.o : \
-	 consts.inc \
-	 neutGlob.inc \
-	 comiou.inc
+	consts.inc \
+	neutGlob.inc \
+	comiou.inc
 
 degasread.o : degdat.inc \
 		comiou.inc
@@ -169,36 +126,36 @@ svdegas.o   : degdat.inc
 calcrefln.o : neutGlob.inc
 
 escape.o : \
-	 consts.inc \
-	 locGeom.inc \
-	 neutGlob.inc \
+	consts.inc \
+	locGeom.inc \
+	neutGlob.inc \
 
 output.o : \
-	 consts.inc \
-	 neutGlob.inc \
-	 comiou.inc 
+	consts.inc \
+	neutGlob.inc \
+	comiou.inc 
 
 setup.o : \
-	 consts.inc \
-	 neutGlob.inc \
+	consts.inc \
+	neutGlob.inc \
 
 
 solvers.o : \
-	 consts.inc \
-	 neutGlob.inc
+	consts.inc \
+	neutGlob.inc
 
 tij.o : \
-	 locGeom.inc \
+	locGeom.inc \
 
 wmsdata.o : \
-	 wmsdata.inc \
+	wmsdata.inc \
 
 ndata.o  :	\
-	   comiou.inc \
-	   consts.inc
+	comiou.inc \
+	consts.inc
 
 pbalance.o: \
-	   neutGlob.inc
+	neutGlob.inc
 
 fem.o: \
 	 neutGlob.inc \
@@ -206,4 +163,9 @@ fem.o: \
 
 clean:
 	rm -f gtneut$E $(OBJ)
+
+realclean: \
+	clean
+	$(MAKE) -C UMFPACK2 clean
+	cd json-fortran; ./build.sh --clean
 
