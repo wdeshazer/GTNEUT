@@ -50,13 +50,13 @@ c/    Local variables:
               enddo
            enddo
          endif
-         
+       
          return
       endif
 
       if(iType(kcell).ge.1)then
          np=mExp
-	   np0=mExp*mExp
+         np0=mExp*mExp
       else
          np=mExp*mExp
       endif
@@ -74,15 +74,15 @@ c/    local mean free path (pre-2002 approach):
             enddo
          enddo
          if(iType(kcell).eq.2)then      
-	   do na = 1, mExp
-              do nb=1, mExp
-                 transw_0(j,na,nb,kw)=tkji((na-1)*mExp+nb)
-                 transw_s(j,na,nb,kw)=tkji((na-1)*mExp+nb)
-                 transw_f(j,na,nb,kw)=tkji((na-1)*mExp+nb)
-              enddo
-	   enddo
+            do na = 1, mExp
+               do nb=1, mExp
+                  transw_0(j,na,nb,kw)=tkji((na-1)*mExp+nb)
+                  transw_s(j,na,nb,kw)=tkji((na-1)*mExp+nb)
+                  transw_f(j,na,nb,kw)=tkji((na-1)*mExp+nb)
+               enddo
+            enddo
          endif
-	 return
+      return
       endif
 
 c/    Assign local value of neutral mfp. It should correspond to the
@@ -98,53 +98,55 @@ c/    fast, slow and source neutrals.
 
          l_mfp = mfp(k,i)
          call calcRect (tkji, iquad, np)
-	   do na=1,mExp
+         do na=1,mExp
             do nb=1,mExp
                transm(k,j,na,nb,i)=tkji((na-1)*mExp+nb)
             enddo
          enddo
 
-	else
+      else
 
-	   if(((irefl.EQ.0).OR.(zwall(kw).LE.0)).and.(Rwall(kw).gt.0))then
-	     l_mfp=lmfp(i)
-           call calcRect (tkji, iquad, np0)
-	     do na=1,mExp
-              do nb=1,mExp
-                 transm(k,j,na,nb,i)=tkji((na-1)*mExp+nb)
-              enddo
-           enddo
-	   else
-	     do na=1, mExp
-	        do nb=1, mExp
-	           transm(k,j,na,nb,i)=0
-	        enddo
-	     enddo
-	   endif
+         if(((irefl.EQ.0).OR.(zwall(kw).LE.0)).and.(Rwall(kw).gt.0))then
+            l_mfp=lmfp(i)
+            call calcRect (tkji, iquad, np0)
+            do na=1,mExp
+               do nb=1,mExp
+                  transm(k,j,na,nb,i)=tkji((na-1)*mExp+nb)
+               enddo
+            enddo
+         else
+         do na=1, mExp
+               do nb=1, mExp
+                  transm(k,j,na,nb,i)=0
+               enddo
+            enddo
+         endif
 
-	endif
+      endif
 
 
       if (iType(kcell).EQ.2) then          ! Wall segment
-	 
+    
          if(inon.eq.0)then
-	  if((irefl.EQ.0).OR.(irefl.EQ.1.AND.(zwall(kw).LE.0.0))) then
-	      do na=1,mExp
+            if((irefl.EQ.0).OR.(irefl.EQ.1.AND.(zwall(kw).LE.0.0))) then
+               do na=1,mExp
                transw_f(j,1,na,kw)=transm(k,j,1,na,i)
                transw_s(j,1,na,kw)=transm(k,j,1,na,i)
-            enddo
-         else if ((irefl.EQ.1).AND.(zwall(kw).GT.0.0)) then ! Reflection on
-	      l_mfp = mfp_wf(kw)
-            call calcRect (tkji, iquad, np)
-	      do na=1,mExp
-               transw_f(j,1,na,kw)=tkji(na)
-            enddo
-	      l_mfp = mfp_ws(kw)
-            call calcRect (tkji, iquad, np)
-	      do na=1,mExp
-               transw_s(j,1,na,kw)=tkji(na)
-            enddo
-         endif
+               enddo
+            else if ((irefl.EQ.1).AND.(zwall(kw).GT.0.0)) then ! Reflection on
+               l_mfp = mfp_wf(kw)
+               call calcRect (tkji, iquad, np)
+
+               do na=1,mExp
+                  transw_f(j,1,na,kw)=tkji(na)
+               enddo
+
+               l_mfp = mfp_ws(kw)
+               call calcRect (tkji, iquad, np)
+               do na=1,mExp
+                  transw_s(j,1,na,kw)=tkji(na)
+               enddo
+            endif
          else
            if(irefl.eq.0.or.(zwall(kw).le.0)) then
              do na=1,mExp
@@ -174,18 +176,17 @@ c/    fast, slow and source neutrals.
 c/    If there is external flux on this wall segment, then calculate
 c/    transmission coefficient for the source neutrals:
          
-	 if (g_ex(kw).GT.0.0) then
-	    l_mfp = mfp_w0(kw)
+         if (g_ex(kw).GT.0.0) then
+            l_mfp = mfp_w0(kw)
             call calcRect (tkji, iquad, np0)
-	    do na=1,mExp
+            do na=1,mExp
                transw_0(j,1,na,kw)=tkji(na)
             enddo
-	 else
+         else
             do na=1,mExp
-	       transw_0(j,1,na,kw)=0.0
+               transw_0(j,1,na,kw)=0.0
             enddo
-         endif	    
-
+         endif
       endif
 
       return
