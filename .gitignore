@@ -4,3 +4,7 @@
 *.bu
 .vscode
 gtneut
+UMFPACK2/dmain
+UMFPACK2/dmain.out
+UMFPACK2/smain
+UMFPACK2/smain.out
