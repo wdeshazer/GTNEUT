@@ -501,6 +501,7 @@ C=======================================================================
 C  EXECUTABLE STATEMENTS:
 C=======================================================================
 
+        PRINT *, 'Hello you are here!'
         IO = ICNTL (2)
         PRL = ICNTL (3)
 
@@ -539,7 +540,6 @@ C-----------------------------------------------------------------------
         INFO (6) = NE
         MAXINT = KEEP (6)
         NMAX = (MAXINT - 2) / 3
-        PRINT *, 'Hello you are here!'
         IF (N .LT. 1) THEN 
 C          n is too small
            CALL UMS2ER (1, ICNTL, INFO, -1, -1)
