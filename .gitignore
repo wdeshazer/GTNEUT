@@ -4,6 +4,7 @@
 *.bu
 .vscode
 gtneut
+a.out
 UMFPACK2/dmain
 UMFPACK2/dmain.out
 UMFPACK2/smain
