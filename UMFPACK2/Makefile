@@ -13,7 +13,7 @@ HARWELL	= mc21b.o mc13e.o
 # BLASLIB	= libblas.a
 BLASLIB	= -lblas -llapack
 
-FFLAGS	= -O
+FFLAGS	= -O -g -ggdb
 F77	= gfortran
 
 PREFIX = /usr/local
@@ -47,7 +47,7 @@ dmain: $(OBJDMAIN)
 smain: $(OBJSMAIN)
 	$(F77) $(FFLAGS) -o smain $(OBJSMAIN)
 
-$(UMFPACKLIB).a: $(UMFD) $(UMFS) $(HARWELL) $(BLASLIB)
+libumfpack.a: $(UMFD) $(UMFS) $(HARWELL) $(BLASLIB)
 	ar ru $@ $^
 	ranlib $@
 

@@ -72,7 +72,7 @@ installumfpack:
 # Include file dependencies:
 
 UMFPACK2/libumfpack.a:
-	$(MAKE) -C UMFPACK2
+	$(MAKE) -C UMFPACK2 libumfpack.a
 
 json-fortran/lib/libjsonfortran.a:
 	pip install Fobis.py
