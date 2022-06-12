@@ -80,7 +80,7 @@ c/    and non-user controllable parameters:
 c/    4/20/2017 - Replacing UMS21I with the equivelant MA38I - Maxwell Hill
 c/    9/7/2021 - Replacing MA38I with equivalent UMS2IN - Will DeShazer
 c/      call MA38I (keep, cntl, icntl)
-      call UMS2IN(keep, cntl, icntl)
+      call UMS2IN(icntl, cntl, keep)
 
 c/    Notice that there are options for long diagnostic output. This is
 c/    controlled by the value of ICNTL(3). The default (accepted here)

@@ -8,20 +8,20 @@
        LINDEX:      9500000  : size of INDEX array
     Control parameters, normally initialized by UMS2IN:
        ICNTL (1...8): integer control parameters
-       ICNTL (1):            3  : I/O unit for error and warning messages
+       ICNTL (1):            6  : I/O unit for error and warning messages
        ICNTL (2):           22  : I/O unit for diagnostics
        ICNTL (3):            4  : printing control
-       ICNTL (4):            0  : do not permute to block triangular form (BTF)
-       ICNTL (5):            2  : columns examined during pivot search
-       ICNTL (6):   2147483647  : preserve symmetry
-       ICNTL (7):           64  : block size for dense matrix multiply
+       ICNTL (4):            1  : use block triangular form (BTF)
+       ICNTL (5):            4  : columns examined during pivot search
+       ICNTL (6):            0  : do not preserve symmetry
+       ICNTL (7):           16  : block size for dense matrix multiply
        CNTL (1...3): real control parameters
        CNTL (1):    0.100000001      : relative pivot tolerance
        CNTL (2):     2.00000000      : frontal matrix growth factor
        KEEP (6...8): integer control parameters not normally modified by user
-       KEEP (6):             0  : largest positive integer
-       KEEP (7):            16  : dense row/col control, d1
-       KEEP (8):             0  : dense row/col control, d2
+       KEEP (6):    2147483647  : largest positive integer
+       KEEP (7):            64  : dense row/col control, d1
+       KEEP (8):             1  : dense row/col control, d2
     The input matrix A:
        VALUE (1 ...           48  ): numerical values
        INDEX (1 ...           48  ): row indices
@@ -79,145 +79,278 @@
 ============================================================UMS2FA output:      
     Output information:
        INFO (1...24): integer output information
-       INFO (1):            -1  : error occurred!
+       INFO (1):             0  : no error or warning occurred
        INFO (2):             0  : duplicate entries in A
        INFO (3):             0  : invalid entries in A (indices not in 1..N)
        INFO (4):             0  : invalid entries in A (not in prior pattern)
        INFO (5):            48  : entries in A after adding
                         duplicates and removing invalid entries
-       INFO (6):            48  : entries in diagonal blocks of A
-       INFO (7):             0  : entries in off-diagonal blocks of A
-       INFO (8):             0  : 1-by-1 diagonal blocks in A
-       INFO (9):             0  : diagonal blocks in A (>1 only if BTF used)
-       INFO (10):            0  : entries below diagonal in L
-       INFO (11):            0  : entries above diagonal in U
-       INFO (12):            0  : entries in L + U + offdiagonal blocks of A
-       INFO (13):            0  : frontal matrices
+       INFO (6):            24  : entries in diagonal blocks of A
+       INFO (7):            24  : entries in off-diagonal blocks of A
+       INFO (8):             8  : 1-by-1 diagonal blocks in A
+       INFO (9):             9  : diagonal blocks in A (>1 only if BTF used)
+       INFO (10):            6  : entries below diagonal in L
+       INFO (11):            6  : entries above diagonal in U
+       INFO (12):           48  : entries in L + U + offdiagonal blocks of A
+       INFO (13):            1  : frontal matrices
        INFO (14):            0  : integer garbage collections
        INFO (15):            0  : real garbage collections
-       INFO (16):            0  : diagonal pivots chosen
-       INFO (17):            0  : numerically valid pivots found in A
-       INFO (18):            0  : memory used in INDEX
-       INFO (19):            0  : minimum memory needed in INDEX
-       INFO (20):            0  : memory used in VALUE
-       INFO (21):            0  : minimum memory needed in VALUE
-       INFO (22):            0  : memory needed in INDEX for next call to UMS2RF
-       INFO (23):            0  : memory needed in VALUE for next call to UMS2RF
+       INFO (16):           12  : diagonal pivots chosen
+       INFO (17):           12  : numerically valid pivots found in A
+       INFO (18):          260  : memory used in INDEX
+       INFO (19):          253  : minimum memory needed in INDEX
+       INFO (20):          100  : memory used in VALUE
+       INFO (21):           96  : minimum memory needed in VALUE
+       INFO (22):          245  : memory needed in INDEX for next call to UMS2RF
+       INFO (23):           96  : memory needed in VALUE for next call to UMS2RF
        RINFO (1...8): real output information
-       RINFO (1):    0.00000000      : total BLAS flop count
-       RINFO (2):    0.00000000      : assembly flop count
-       RINFO (3):    0.00000000      : pivot search flop count
-       RINFO (4):    0.00000000      : Level-1 BLAS flop count
-       RINFO (5):    0.00000000      : Level-2 BLAS flop count
+       RINFO (1):    34.0000000      : total BLAS flop count
+       RINFO (2):    16.0000000      : assembly flop count
+       RINFO (3):    42.0000000      : pivot search flop count
+       RINFO (4):    6.00000000      : Level-1 BLAS flop count
+       RINFO (5):    28.0000000      : Level-2 BLAS flop count
        RINFO (6):    0.00000000      : Level-3 BLAS flop count
-    LU factors not printed because of error flag, INFO (1) =           -1
+    KEEP (1...5) gives the location of LU factors
+       which must be preserved for calls to UMS2SO: 
+          VALUE ( KEEP (1):      9499905  ... KEEP (2):      9500000  )
+          INDEX ( KEEP (3):      9499840  ... KEEP (5):      9500000  )
+       and for calls to UMS2RF: 
+          INDEX ( KEEP (4):      9499925  ... KEEP (5):      9500000  )
+    Layout of LU factors in VALUE and INDEX:
+       preserved copy of original matrix:
+          INDEX (      9499840  ...      9499852  ): column pointers
+          INDEX (      9499853  ...      9499900  ): row indices
+          VALUE (      9499905  ...      9499952  ): numerical values
+       matrix permuted to upper block triangular form.
+       entries not in diagonal blocks:
+          INDEX (      9499901  ...      9499924  ): row indices
+          VALUE (      9499953  ...      9499976  ): numerical values
+       collection of elements in LU factors of diagonal blocks:
+          (an "element" contains one or columns of L and
+          rows of U with similar nonzero pattern)
+          INDEX (      9499925  ...      9499937  ): integer data
+          VALUE (      9499977  ...      9500000  ): numerical values
+       other block triangular data:
+          INDEX (      9499938  ...      9499946  ): pointers to block factors
+          INDEX (      9499947  ...      9499956  ): index range of blocks
+          INDEX (      9499957  ...      9499993  ): row pointers for off-diagonal part
+       permutation vectors (start at KEEP(4)-2*N-6):
+          INDEX (      9499970  ...      9499981  ): column permutations
+          INDEX (      9499982  ...      9499993  ): row permutations
+       other data in INDEX: 
+          INDEX (      9499994  ):            0  : TRANSA UMS2FA/UMS2RF argument
+          INDEX (      9499995  ):           24  : entries in off-diagonal part
+          INDEX (      9499996  ):            9  : number of diagonal blocks
+          INDEX (      9499997  ):            1  : JOB UMS2FA/UMS2RF argument
+          INDEX (      9499998  ):           48  : entries in original matrix
+          INDEX (      9499999  ):           12  : N UMS2FA/UMS2RF argument
+          INDEX (      9500000  ):           48  : NE UMS2FA/UMS2RF argument
+   -----------------------------------------------------------------------------
+    Preserved copy of original matrix:
+       col:            1  nz:           10
+           1           2           3           4           5           6           7           8           9          10
+  0.96682066E+00  0.72690943E-03  0.15958455E-03 -0.33179339E-01  0.66810397E-29
+ -0.12153998E-21 -0.33804636E-01 -0.72701502E-03  0.15963834E-03 -0.33179339E-01
+       col:            2  nz:            1
+           2
+  0.10000000E+01
+       col:            3  nz:            1
+           3
+  0.10000000E+01
+       col:            4  nz:           10
+           1           2           3           4           7           8           9          10          11          12
+ -0.15399938E-01 -0.48276590E-03  0.11662323E-03  0.98501331E+00 -0.15399901E-01
+  0.48271724E-03  0.11659734E-03 -0.14986716E-01  0.66810397E-29 -0.12153998E-21
+       col:            5  nz:            1
+           5
+  0.10000000E+01
+       col:            6  nz:            1
+           6
+  0.10000000E+01
+       col:            7  nz:           10
+           1           2           3           4           5           6           7          10          11          12
+ -0.33179339E-01  0.66810397E-29 -0.12153998E-21 -0.33804636E-01 -0.72701502E-03
+  0.15963834E-03  0.96682066E+00 -0.33804554E-01  0.72690943E-03  0.15958455E-03
+       col:            8  nz:            1
+           8
+  0.10000000E+01
+       col:            9  nz:            1
+           9
+  0.10000000E+01
+       col:           10  nz:           10
+           1           2           3           4           5           6           7           8           9          10
+ -0.33804554E-01  0.72690943E-03  0.15958455E-03 -0.33179339E-01  0.66810397E-29
+ -0.12153998E-21 -0.33804636E-01 -0.72701502E-03  0.15963834E-03  0.96682066E+00
+       col:           11  nz:            1
+          11
+  0.10000000E+01
+       col:           12  nz:            1
+          12
+  0.10000000E+01
+   -----------------------------------------------------------------------------
+    Entries not in diagonal blocks:
+       row:            1  nz:            4
+           9          10          11          12
+  0.72690943E-03  0.66810397E-29 -0.48276590E-03  0.72690943E-03
+       row:            2  nz:            4
+           9          10          11          12
+  0.15958455E-03 -0.12153998E-21  0.11662323E-03  0.15958455E-03
+       row:            3  nz:            3
+           9          10          12
+  0.66810397E-29 -0.72701502E-03  0.66810397E-29
+       row:            4  nz:            3
+           9          10          12
+ -0.12153998E-21  0.15963834E-03 -0.12153998E-21
+       row:            5  nz:            3
+           9          11          12
+ -0.72701502E-03  0.48271724E-03 -0.72701502E-03
+       row:            6  nz:            3
+           9          11          12
+  0.15963834E-03  0.11659734E-03  0.15963834E-03
+       row:            7  nz:            2
+          10          11
+  0.72690943E-03  0.66810397E-29
+       row:            8  nz:            2
+          10          11
+  0.15958455E-03 -0.12153998E-21
+   -----------------------------------------------------------------------------
+    LU factors of each diagonal block:
+   .............................................................................
+    Singleton block:            1  at index :            1
+    located in VALUE (      9499977  ):    1.00000000    
+   .............................................................................
+    Singleton block:            2  at index :            2
+    located in VALUE (      9499978  ):    1.00000000    
+   .............................................................................
+    Singleton block:            3  at index :            3
+    located in VALUE (      9499979  ):    1.00000000    
+   .............................................................................
+    Singleton block:            4  at index :            4
+    located in VALUE (      9499980  ):    1.00000000    
+   .............................................................................
+    Singleton block:            5  at index :            5
+    located in VALUE (      9499981  ):    1.00000000    
+   .............................................................................
+    Singleton block:            6  at index :            6
+    located in VALUE (      9499982  ):    1.00000000    
+   .............................................................................
+    Singleton block:            7  at index :            7
+    located in VALUE (      9499983  ):    1.00000000    
+   .............................................................................
+    Singleton block:            8  at index :            8
+    located in VALUE (      9499984  ):    1.00000000    
+   .............................................................................
+    Block:            9  first index:            9  last index:           12    order:            4
+    elements:            1    pivots:            4
+    largest contribution block:            1  by            1
+    located in INDEX (      9499925  ... )
+    and in VALUE (      9499985  ... )
+       e:            1  pivots:            4  children in dag:            0  frontal matrix:            4  by            4
+          col:            1  nz:            4
+                        1   1.0
+                        2  -3.49647440E-02
+                        3  -3.43179852E-02
+                        4  -3.49646583E-02
+          col:            2  nz:            3
+                        2   1.0
+                        3  -3.62089239E-02
+                        4  -3.55840139E-02
+          col:            3  nz:            2
+                        3   1.0
+                        4  -1.67600401E-02
+          col:            4  nz:            1
+                        4   1.0
+          row:            1  nz:            4
+                        1  0.966820657    
+                        2  -3.38045545E-02
+                        3  -1.49867162E-02
+                        4  -3.31793390E-02
+          row:            2  nz:            3
+                        2  0.965638697    
+                        3  -1.59239080E-02
+                        4  -3.49647440E-02
+          row:            3  nz:            2
+                        3  0.983922422    
+                        4  -3.55840214E-02
+          row:            4  nz:            1
+                        4  0.963819981    
+   -----------------------------------------------------------------------------
+       Column permutations
+           2           3           5           6           8           9          11          12          10           7           4           1
+   -----------------------------------------------------------------------------
+       Row permutations
+           2           3           5           6           8           9          11          12          10           7           4           1
 ============================================================end of UMS2FA output
- Value of info(1) from UMS2FA routine = -1
+ Value of info(1) from UMS2SO routine =  0
 ============================================================UMS2FA input:       
     Scalar arguments:
        N:                12  : order of matrix A
-       NE:               48  : entries in matrix A
+       NE:               12  : entries in matrix A
        JOB:               1  : matrix A preserved
        TRANSA:   .false. : factorize A
        LVALUE:      9500000  : size of VALUE array
        LINDEX:      9500000  : size of INDEX array
     Control parameters, normally initialized by UMS2IN:
        ICNTL (1...8): integer control parameters
-       ICNTL (1):            3  : I/O unit for error and warning messages
+       ICNTL (1):            6  : I/O unit for error and warning messages
        ICNTL (2):           22  : I/O unit for diagnostics
        ICNTL (3):            4  : printing control
-       ICNTL (4):            0  : do not permute to block triangular form (BTF)
-       ICNTL (5):            2  : columns examined during pivot search
-       ICNTL (6):   2147483647  : preserve symmetry
-       ICNTL (7):           64  : block size for dense matrix multiply
+       ICNTL (4):            1  : use block triangular form (BTF)
+       ICNTL (5):            4  : columns examined during pivot search
+       ICNTL (6):            0  : do not preserve symmetry
+       ICNTL (7):           16  : block size for dense matrix multiply
        CNTL (1...3): real control parameters
        CNTL (1):    0.100000001      : relative pivot tolerance
        CNTL (2):     2.00000000      : frontal matrix growth factor
        KEEP (6...8): integer control parameters not normally modified by user
-       KEEP (6):             0  : largest positive integer
-       KEEP (7):            16  : dense row/col control, d1
-       KEEP (8):             0  : dense row/col control, d2
+       KEEP (6):    2147483647  : largest positive integer
+       KEEP (7):            64  : dense row/col control, d1
+       KEEP (8):             1  : dense row/col control, d2
     The input matrix A:
-       VALUE (1 ...           48  ): numerical values
-       INDEX (1 ...           48  ): row indices
-       INDEX (          49  ...           96  ): column indices
+       VALUE (1 ...           12  ): numerical values
+       INDEX (1 ...           12  ): row indices
+       INDEX (          13  ...           24  ): column indices
     Entries in the matrix A (entry number: row, column, value):
-                  1 :            1             1    0.966820657    
-                  2 :            1             4    -1.53999384E-02
-                  3 :            1             7    -3.31793390E-02
-                  4 :            1            10    -3.38045545E-02
-                  5 :            2             2     1.00000000    
-                  6 :            2             1     7.26909435E-04
-                  7 :            2             4    -4.82765900E-04
-                  8 :            2             7     6.68103969E-30
-                  9 :            2            10     7.26909435E-04
-                 10 :            3             3     1.00000000    
-                 11 :            3             1     1.59584553E-04
-                 12 :            3             4     1.16623225E-04
-                 13 :            3             7    -1.21539976E-22
-                 14 :            3            10     1.59584553E-04
-                 15 :            4             4    0.985013306    
-                 16 :            4             1    -3.31793390E-02
-                 17 :            4             7    -3.38046364E-02
-                 18 :            4            10    -3.31793390E-02
-                 19 :            5             5     1.00000000    
-                 20 :            5             1     6.68103969E-30
-                 21 :            5             7    -7.27015024E-04
-                 22 :            5            10     6.68103969E-30
-                 23 :            6             6     1.00000000    
-                 24 :            6             1    -1.21539976E-22
-                 25 :            6             7     1.59638337E-04
-                 26 :            6            10    -1.21539976E-22
-                 27 :            7             7    0.966820657    
-                 28 :            7             1    -3.38046364E-02
-                 29 :            7             4    -1.53999012E-02
-                 30 :            7            10    -3.38046364E-02
-                 31 :            8             8     1.00000000    
-                 32 :            8             1    -7.27015024E-04
-                 33 :            8             4     4.82717238E-04
-                 34 :            8            10    -7.27015024E-04
-                 35 :            9             9     1.00000000    
-                 36 :            9             1     1.59638337E-04
-                 37 :            9             4     1.16597337E-04
-                 38 :            9            10     1.59638337E-04
-                 39 :           10            10    0.966820657    
-                 40 :           10             1    -3.31793390E-02
-                 41 :           10             4    -1.49867162E-02
-                 42 :           10             7    -3.38045545E-02
-                 43 :           11            11     1.00000000    
-                 44 :           11             4     6.68103969E-30
-                 45 :           11             7     7.26909435E-04
-                 46 :           12            12     1.00000000    
-                 47 :           12             4    -1.21539976E-22
-                 48 :           12             7     1.59584553E-04
+                  1 :            1             1                NaN
+                  2 :            2             2     1.00000000    
+                  3 :            3             3     1.00000000    
+                  4 :            4             4                NaN
+                  5 :            5             5     1.00000000    
+                  6 :            6             6     1.00000000    
+                  7 :            7             7                NaN
+                  8 :            8             8     1.00000000    
+                  9 :            9             9     1.00000000    
+                 10 :           10            10                NaN
+                 11 :           11            11     1.00000000    
+                 12 :           12            12     1.00000000    
 ============================================================end of UMS2FA input 
 ============================================================UMS2FA output:      
     Output information:
        INFO (1...24): integer output information
-       INFO (1):            -1  : error occurred!
+       INFO (1):            -3  : error occurred!
        INFO (2):             0  : duplicate entries in A
        INFO (3):             0  : invalid entries in A (indices not in 1..N)
        INFO (4):             0  : invalid entries in A (not in prior pattern)
-       INFO (5):            48  : entries in A after adding
+       INFO (5):            12  : entries in A after adding
                         duplicates and removing invalid entries
-       INFO (6):            48  : entries in diagonal blocks of A
+       INFO (6):            12  : entries in diagonal blocks of A
        INFO (7):             0  : entries in off-diagonal blocks of A
-       INFO (8):             0  : 1-by-1 diagonal blocks in A
-       INFO (9):             0  : diagonal blocks in A (>1 only if BTF used)
+       INFO (8):            12  : 1-by-1 diagonal blocks in A
+       INFO (9):            12  : diagonal blocks in A (>1 only if BTF used)
        INFO (10):            0  : entries below diagonal in L
        INFO (11):            0  : entries above diagonal in U
-       INFO (12):            0  : entries in L + U + offdiagonal blocks of A
+       INFO (12):           12  : entries in L + U + offdiagonal blocks of A
        INFO (13):            0  : frontal matrices
        INFO (14):            0  : integer garbage collections
        INFO (15):            0  : real garbage collections
        INFO (16):            0  : diagonal pivots chosen
-       INFO (17):            0  : numerically valid pivots found in A
-       INFO (18):            0  : memory used in INDEX
-       INFO (19):            0  : minimum memory needed in INDEX
-       INFO (20):            0  : memory used in VALUE
-       INFO (21):            0  : minimum memory needed in VALUE
-       INFO (22):            0  : memory needed in INDEX for next call to UMS2RF
-       INFO (23):            0  : memory needed in VALUE for next call to UMS2RF
+       INFO (17):           12  : numerically valid pivots found in A
+       INFO (18):          143  : memory used in INDEX
+       INFO (19):          143  : minimum memory needed in INDEX
+       INFO (20):           24  : memory used in VALUE
+       INFO (21):           24  : minimum memory needed in VALUE
+       INFO (22):           86  : memory needed in INDEX for next call to UMS2RF
+       INFO (23):           24  : memory needed in VALUE for next call to UMS2RF
        RINFO (1...8): real output information
        RINFO (1):    0.00000000      : total BLAS flop count
        RINFO (2):    0.00000000      : assembly flop count
@@ -225,6 +358,6 @@
        RINFO (4):    0.00000000      : Level-1 BLAS flop count
        RINFO (5):    0.00000000      : Level-2 BLAS flop count
        RINFO (6):    0.00000000      : Level-3 BLAS flop count
-    LU factors not printed because of error flag, INFO (1) =           -1
+    LU factors not printed because of error flag, INFO (1) =           -3
 ============================================================end of UMS2FA output
- Value of info(1) from UMS2FA routine = -1
+ Value of info(1) from UMS2FA routine = -3

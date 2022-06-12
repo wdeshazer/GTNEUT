@@ -18,9 +18,9 @@
  Total recycling ion flux    =  0.00000E+00 #/s
  Total volumetric source     =  0.00000E+00 #/s
  Lost to core plasma         =  0.00000E+00 #/s
- Wall absorption or pumping  =  0.00000E+00 #/s
+ Wall absorption or pumping  =          NaN #/s
  Lost by ionization          =  0.00000E+00 #/s
  Total particles in          =  0.00000E+00 #/s
- Total particles out         =  0.00000E+00 #/s
+ Total particles out         =          NaN #/s
  Particle balance error      =      NaN %
  Exit code =  0
